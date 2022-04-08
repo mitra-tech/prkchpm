@@ -1,92 +1,94 @@
-import React, { useState } from "react";
-import { Header, Container, Input, Label, Button, Main } from "./Styles";
+import React, { useEffect, useState } from "react";
+import {
+  Header,
+  Container,
+  Input,
+  Label,
+  Button,
+  Main,
+  SearchResult,
+  Counter,
+  NotFoundText,
+  FoundText,
+  NotificationContainer,
+} from "./Styles";
 
 const Anagram = (props) => {
-  //Input Value
   const [inputValue, setInputValue] = useState("");
-
-  // counter
-  // const [counter, setCounter] = useState(0);
-
-  // sorted input value state
-  const [sortedWord, setSortedWord] = useState("");
-
-  // sorted input value state
+  const [counter, setCounter] = useState(0);
+  const [sortedInputWord, setSortedInputWord] = useState("");
   const [sortedArray, setSortedArray] = useState([]);
 
-  // const sortedArray = [];
+  useEffect(() => {
+    sortArrayWords(props.data);
+  });
+
+  useEffect(() => {
+    findAnagram(sortedArray, sortedInputWord);
+  }, [sortedInputWord]);
+
   const onHandleChange = (e) => {
     setInputValue(e.target.value);
   };
 
-  // Sorting input word
-  const sortWord = (word) => {
-    setSortedWord(word.split("").sort().join(""));
+  const sortInputWord = (word) => {
+    if (word) {
+      setSortedInputWord(word.split("").sort().join(""));
+    } else {
+      console.log("Word is not matched!");
+    }
   };
 
-  // generating new array that each element is sorted alphabetically
-  const sortArray = (array) => {
-    const sortedArray = array.map((word) => {
+  const sortArrayWords = (array) => {
+    let sorted = array.map((word) => {
       return word.split("").sort().join("");
     });
-    console.log(sortedArray);
-  };
-  console.log(sortedWord);
 
-  // comparing two words
-  const findAnagram = () => {
-    // sortedArray.forEach(() => {
-    // })
+    setSortedArray([...sorted]);
   };
 
-  // button handler
-  const onAnagramFinder = () => {
-    sortArray(props.data);
-    sortWord(inputValue);
+  const findAnagram = (array, word) => {
+    let count = 0;
+    array.forEach((element) => {
+      if (element === word.toString()) {
+        count = count + 1;
+      }
+    });
+    setCounter(count);
   };
 
   return (
     <Container>
-      <Header>Park Champ</Header>
+      <Header>Anagram Finder</Header>
       <Main>
-        <Label> enter a word</Label>
-        <Input type="text" id="word" name="word" onInput={onHandleChange} />
-        <Button onClick={onAnagramFinder}>
-          <p>Submit</p>
+        <Label>Enter a word: </Label>
+
+        <Input
+          placeholder=" Enter a word..."
+          type="text"
+          id="word"
+          name="word"
+          onInput={onHandleChange}
+        />
+
+        <Button onClick={() => sortInputWord(inputValue)}>
+          <p>Find</p>
         </Button>
       </Main>
-      <h1>{`counter matches were found in your search`}</h1>
+      <NotificationContainer>
+        {counter > 0 ? (
+          <SearchResult>
+            <Counter>{counter}</Counter>
+            <FoundText> anagram/s found in your search.</FoundText>
+          </SearchResult>
+        ) : (
+          <NotFoundText style={{ color: "red" }}>
+            Nothing found! Please try another word...
+          </NotFoundText>
+        )}
+      </NotificationContainer>
     </Container>
   );
 };
 
 export default Anagram;
-
-//  // props.data.forEach((word) => {
-//   const sortedWords = word.split("").sort().join("");
-//   console.log(sortedWords);
-//   sortedArray.push(sortedWords);
-// });
-
-// sortedArray.forEach((word, count = 0) => {
-//   if (inputWord === word) {
-//     count += 1;
-//     setCounter(count);
-//   }
-// });
-// let count = 0;
-
-// if (inputValue.length !== word.length) {
-//   console.log("invalid word");
-//   return;
-// }
-
-// let word1 = word.split("").sort().join("");
-//   console.log(word1);
-
-//   if (word1 === word2) {
-//     counter += 1;
-//     console.log(`There are ${counter} matches`);
-//   } else {
-//     console.log("words are diffrent");
-//   }
