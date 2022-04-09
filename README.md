@@ -2,7 +2,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-# Used technologies
+# Used Technologies
 firebase, style components, react & react hooks
 
 ## Available Scripts
