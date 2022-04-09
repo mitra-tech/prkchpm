@@ -4,7 +4,6 @@ import {
   Container,
   Input,
   Label,
-  Button,
   Main,
   SearchResult,
   Counter,
@@ -14,30 +13,18 @@ import {
 } from "./Styles";
 
 const Anagram = (props) => {
+  const [sortedArray, setSortedArray] = useState([]);
   const [inputWord, setInputWord] = useState("");
   const [counter, setCounter] = useState(0);
-  const [sortedInputWord, setSortedInputWord] = useState("");
-  const [sortedArray, setSortedArray] = useState([]);
 
   useEffect(() => {
     sortWordsArray(props.data);
   }, [props.data]);
 
   useEffect(() => {
-    findAnagram(sortedArray, sortedInputWord);
-  }, [sortedInputWord]);
-
-  const onHandleChange = (e) => {
-    setInputWord(e.target.value);
-  };
-
-  const sortInputWord = () => {
-    if (inputWord) {
-      let sortedWord = inputWord.split("").sort().join("");
-      setSortedInputWord(sortedWord);
-    }
-    setInputWord("");
-  };
+    let sortedInputWord = sortInputWord();
+    findNumberOfAnagram(sortedArray, sortedInputWord);
+  }, [inputWord]);
 
   const sortWordsArray = (array) => {
     let sorted = array.map((word) => {
@@ -47,14 +34,27 @@ const Anagram = (props) => {
     setSortedArray([...sorted]);
   };
 
-  const findAnagram = (array, word) => {
-    let count = 0;
-    array.forEach((element) => {
-      if (element === word.toString()) {
-        count = count + 1;
-      }
-    });
-    setCounter(count);
+  const onHandleChange = (e) => {
+    setInputWord(e.target.value);
+  };
+
+  const sortInputWord = () => {
+    if (inputWord) {
+      let sortedWord = inputWord.toLowerCase().split("").sort().join("");
+      return sortedWord;
+    }
+  };
+
+  const findNumberOfAnagram = (array, word) => {
+    if (word) {
+      let count = 0;
+      array.forEach((element) => {
+        if (element === word.toString()) {
+          count = count + 1;
+        }
+      });
+      setCounter(count);
+    }
   };
 
   return (
@@ -68,16 +68,12 @@ const Anagram = (props) => {
           type="text"
           id="word"
           name="word"
-          onInput={onHandleChange}
+          onChange={onHandleChange}
           value={inputWord}
         />
-
-        <Button onClick={sortInputWord}>
-          <p>Find</p>
-        </Button>
       </Main>
       <NotificationContainer>
-        {counter === 0 && sortedInputWord === "" ? (
+        {counter === 0 && inputWord === "" ? (
           ""
         ) : counter > 0 ? (
           <SearchResult>

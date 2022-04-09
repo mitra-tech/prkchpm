@@ -21,7 +21,7 @@ export const Main = styled.div`
   display: grid;
   grid-row-start: 2;
   grid-row-end: 3;
-  grid-template-columns: 10fr 3fr 5fr 3fr 10fr;
+  grid-template-columns: 10fr 3fr 7fr 3fr 10fr;
 `;
 
 export const Label = styled.label`
@@ -42,23 +42,6 @@ export const Input = styled.input`
   border-radius: 5px;
   grid-column-start: 3;
   grid-column-end: 4;
-`;
-
-export const Button = styled.button`
-  width: 120px;
-  height: 43px;
-  grid-column-start: 4;
-  grid-column-end: 5;
-  background-color: #2ba65c;
-  border-radius: 5px;
-  cursor: pointer;
-  margin: auto;
-  border: 1px #2ba65c solid;
-  p {
-    font-size: 18px;
-    font-weight: 700;
-    background-color: #2ba65c;
-  }
 `;
 
 export const NotificationContainer = styled.div`
