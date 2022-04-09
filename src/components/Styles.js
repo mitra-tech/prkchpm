@@ -70,16 +70,16 @@ export const SearchResult = styled.div`
   font-size: 24px;
   font-weight: 700;
   display: grid;
-  grid-template-columns: 10fr 1fr 7fr 10fr;
-  /* grid-template-rows: 1fr; */
+  grid-template-columns: 8fr 0.5fr 3fr 8fr;
 `;
 
 export const Counter = styled.p`
   color: #2ba65c;
-  font-size: 32px;
+  font-size: 36px;
   font-weight: 800;
   grid-column-start: 2;
   grid-column-end: 3;
+  margin: auto;
 `;
 
 export const FoundText = styled.p`
@@ -87,6 +87,7 @@ export const FoundText = styled.p`
   font-weight: 700;
   grid-column-start: 3;
   grid-column-end: 4;
+  margin: auto;
 `;
 export const NotFoundText = styled.p`
   font-size: 24px;

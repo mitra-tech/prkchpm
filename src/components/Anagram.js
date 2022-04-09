@@ -14,32 +14,32 @@ import {
 } from "./Styles";
 
 const Anagram = (props) => {
-  const [inputValue, setInputValue] = useState("");
+  const [inputWord, setInputWord] = useState("");
   const [counter, setCounter] = useState(0);
   const [sortedInputWord, setSortedInputWord] = useState("");
   const [sortedArray, setSortedArray] = useState([]);
 
   useEffect(() => {
-    sortArrayWords(props.data);
-  });
+    sortWordsArray(props.data);
+  }, [props.data]);
 
   useEffect(() => {
     findAnagram(sortedArray, sortedInputWord);
   }, [sortedInputWord]);
 
   const onHandleChange = (e) => {
-    setInputValue(e.target.value);
+    setInputWord(e.target.value);
   };
 
-  const sortInputWord = (word) => {
-    if (word) {
-      setSortedInputWord(word.split("").sort().join(""));
-    } else {
-      console.log("Word is not matched!");
+  const sortInputWord = () => {
+    if (inputWord) {
+      let sortedWord = inputWord.split("").sort().join("");
+      setSortedInputWord(sortedWord);
     }
+    setInputWord("");
   };
 
-  const sortArrayWords = (array) => {
+  const sortWordsArray = (array) => {
     let sorted = array.map((word) => {
       return word.split("").sort().join("");
     });
@@ -69,17 +69,20 @@ const Anagram = (props) => {
           id="word"
           name="word"
           onInput={onHandleChange}
+          value={inputWord}
         />
 
-        <Button onClick={() => sortInputWord(inputValue)}>
+        <Button onClick={sortInputWord}>
           <p>Find</p>
         </Button>
       </Main>
       <NotificationContainer>
-        {counter > 0 ? (
+        {counter === 0 && sortedInputWord === "" ? (
+          ""
+        ) : counter > 0 ? (
           <SearchResult>
             <Counter>{counter}</Counter>
-            <FoundText> anagram/s found in your search.</FoundText>
+            <FoundText> anagram/s found.</FoundText>
           </SearchResult>
         ) : (
           <NotFoundText style={{ color: "red" }}>
